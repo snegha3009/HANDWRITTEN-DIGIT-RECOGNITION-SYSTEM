@@ -6,7 +6,7 @@ import win32gui
 from PIL import ImageGrab, Image
 import numpy as np
 
-# Load the pre-trained model
+# To Load the pre-trained model
 model = load_model('mnist.h5')
 
 def preprocess_image(img):
