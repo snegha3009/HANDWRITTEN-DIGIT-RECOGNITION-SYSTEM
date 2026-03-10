@@ -1,0 +1,54 @@
+## USING ENCODER DECODER ARCHITECTURE 
+
+(Alternative)
+
+import tensorflow as tf
+from tensorflow.keras import layers, models
+import matplotlib.pyplot as plt
+
+# Step 1: Load and Preprocess Dataset
+(x_train, _), (x_test, _) = tf.keras.datasets.mnist.load_data()
+
+# Normalize pixel values between 0 and 1 and reshape to (28, 28, 1)
+x_train = x_train.astype("float32") / 255.0
+x_test = x_test.astype("float32") / 255.0
+
+x_train = x_train.reshape((-1, 28, 28, 1))
+x_test = x_test.reshape((-1, 28, 28, 1))
+
+
+# Step 2: Define Autoencoder Architecture
+# Encoder
+input_img = tf.keras.Input(shape=(28, 28, 1))
+x = layers.Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+…
+# Autoencoder Model
+autoencoder = models.Model(input_img, decoded)
+autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+
+# Step 3: Train the Autoencoder
+
+autoencoder.fit(x_train, x_train,
+                epochs=10,
+                batch_size=128,
+                shuffle=True,
+                validation_data=(x_test, x_test))
+
+# Step 4: Visualize Original vs Reconstructed Images
+decoded_imgs = autoencoder.predict(x_test)
+for i in range(n):
+  ax = plt.subplot(2, n, i + 1)
+  plt.imshow(x_test[i].reshape(28, 28), cmap='gray')
+  plt.title("Original")
+  plt.axis('off')
+  ax = plt.subplot(2, n, i + 1 + n)
+  plt.imshow(decoded_imgs[i].reshape(28, 28), cmap='gray')
+  plt.title("Reconstructed")
+  plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+
+n = 10  # Number of digits to display
+plt.figure(figsize=(20, 4))
